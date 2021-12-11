@@ -1,10 +1,18 @@
-const {Router} =  require("express");
+const { Router } = require("express");
 
 const router = Router();
 
-const controller = require("./auth.controller");
+const authController = require("./auth.controller");
 
-router.get("/login", controller.loginPage);
+/**
+ * login page router
+ */
+router.get("/login", authController.loginPage);
+
+/**
+ * login page router
+ */
+router.get("/register", authController.registerPage);
 
 
 module.exports = router;
