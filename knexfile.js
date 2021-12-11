@@ -14,6 +14,7 @@ module.exports = {
             password: DB_PASSWORD,
             host: DB_HOST,
             port: DB_PORT,
+            timezone     : "utc",
         },
         pool: {
             min: 2,

@@ -10,7 +10,9 @@ exports.up = function (knex) {
             table.string("email", 255).notNullable();
             table.string("password", 255).notNullable();
             table.date("birth_date", 255);
-            table.timestamps(true, true);
+            table.timestamp("created_at").defaultTo(knex.fn.now());
+            table.timestamp("updated_at").defaultTo(knex.fn.now());
+            table.timestamp("deleted_at").defaultTo(knex.fn.now());
         });
 
 };

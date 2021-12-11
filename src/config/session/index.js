@@ -17,10 +17,10 @@ const sessionSetting = session({
         maxAge: 86400000, // One Day, for testing
     },
     store: new KnexSessionStore({
-        knex: db,
-        sidfieldname: "id",
-        createtable: true,
-        clearInterval: 86400001,
+        knex: db, // sessions Database connection
+        sidfieldname: "id", // name of sessions id
+        createtable: true, // create TABLE if not exist
+        clearInterval: 86400001,  // one day of sessions clear
         tablename: "tbl_sessions", // optional. Defaults to 'sessions'
     })
 });
