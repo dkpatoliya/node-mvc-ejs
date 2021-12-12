@@ -20,6 +20,7 @@ const registerRequest = ajv.compile({
         password: { type: "string", maxLength: 128 },
         gender: { enum: ["M", "F", "O"] },
         birth_date: { type: "string", format: "date" },
+        profile_image: { type: "string" },
     },
     required: ["f_name", "l_name", "email", "password", "gender", "birth_date"],
    

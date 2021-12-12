@@ -2,6 +2,9 @@ const authService = require("./auth.service");
 
 const authSchema = require("./auth.validation");
 const { encryptionMD5 } = require("../../helper/encryption");
+
+
+
 // const authService = require("./auth.service");
 
 /**
@@ -11,10 +14,27 @@ const { encryptionMD5 } = require("../../helper/encryption");
  * @param {Object} res  express response
  * @author Divyesh Patoliya<patoliyadivyesh101@gmail.com>
  */
-const loginPage = (_, res) => {
-    res.render("login", { success: false, error: false });
-};
+const loginPage = (req, res) => {
+    if(req.session.login_id) {
+        res.redirect("/profile");
 
+    } else {
+        res.render("login", { success: false, error: false });
+    }
+   
+};
+/**
+ * logout page controller
+ * @type function
+ * @param {Object} req express request
+ * @param {Object} res  express response
+ * @author Divyesh Patoliya<patoliyadivyesh101@gmail.com>
+ */
+const logout = (req, res) => {
+    req.session.destroy();
+    res.redirect("/auth/login");
+
+};
 /**
  * login page controller
  * @type function
@@ -33,13 +53,14 @@ const loginRequest = async (req, res) => {
                 email: req.body.email,
                 password: encryptionMD5(req.body.password)
             };
+
             // inset data
             const user = await authService.loginUser(loginParams);
             if (user[0]) {
                 // will have a new session here
                 let session = req.session;
                 session.login_id = user[0].id;
-               
+
                 res.redirect("/profile");
             } else {
                 res.render("login", { data: req.body, success: false, error: "Invalid Email or password" });
@@ -48,7 +69,6 @@ const loginRequest = async (req, res) => {
             res.render("login", { data: req.body, success: false, error: authSchema.loginRequest[0].message });
         }
     } catch (error) {
-        console.log(error);
         res.render("login", { data: req.body, success: false, error: "Something went wrong please try again" });
     }
 };
@@ -82,8 +102,10 @@ const registerRequest = async (req, res) => {
                     profile_image: req.body.profile_image,
                     gender: req.body.gender,
                     password: encryptionMD5(req.body.password),
-                    birth_date: req.body.birth_date
+                    birth_date: req.body.birth_date,
+                    address: "",
                 };
+            
                 // inset data
                 await authService.addUser(registerParams);
                 res.redirect("/auth/login");
@@ -98,7 +120,8 @@ const registerRequest = async (req, res) => {
             });
         }
     } catch (error) {
-        res.render("register", { data: req.body, success: false, error: "Something went wrong please try again" });
+        console.log(error);
+        res.status(500).render("register", { data: req.body, success: false, error: "Something went wrong please try again" });
     }
 };
 
@@ -110,5 +133,6 @@ module.exports = {
     loginPage,
     loginRequest,
     registerPage,
-    registerRequest
+    registerRequest,
+    logout
 };

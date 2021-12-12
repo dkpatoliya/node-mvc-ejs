@@ -8,11 +8,11 @@ const GENERAL = {
     API_URL,
     DEFAULT_TIMEZONE: "UTC",
     TEMP_FILE_PATH: {
-        FILE_PATH: "/public/tmp/",
-        FILE_SERVER_PATH: "/tmp/"
+        FILE_PATH: "/public/images/",
+        FILE_SERVER_PATH: "/images/"
     },
     ORIGINAL_FILE_PATH: {
-        IMAGE_PATH: "/public/image/",
+        IMAGE_PATH: "/public/images/",
         IMAGE_PREVIEW_PATH: "/images/",
     },
 };

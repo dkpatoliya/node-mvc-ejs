@@ -154,7 +154,7 @@
                                                 id="id_input_date"
                                                 name="birth_date"
                                                 placeholder="Birth Date"
-                                                value="'<%= data.birth_date ?  data.birth_date : '' %>'"
+                                                value="<%= data.birth_date ? new Date(data.birth_date.toString()).toISOString().split('T')[0] : '' %>"
                                             />
                                         </div>
                                     </div>

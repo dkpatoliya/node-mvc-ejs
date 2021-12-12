@@ -73,7 +73,7 @@
                                                 <div class="mb-3 float-end">
                                                     <label for="id_form_file" class="form-label">
                                                         <img
-                                                            src="<%= data.profile_image_url ?  data.profile_image_url : '' %>"
+                                                            src="<%= data.profile_image ?  data.profile_image : '' %>"
                                                             style="max-height: 150px"
                                                             onerror="this.onerror=null;this.src='/images/default.png';"
                                                             id="profile_img_thumbnail"
@@ -90,8 +90,7 @@
                                                     <input
                                                         type="hidden"
                                                         name="profile_image"
-                                                        id="id_profile_images_input",
-                                                        value="<%= data.profile_image ?  data.profile_image : '' %>"
+                                                        id="id_profile_images_input"
                                                     />
                                                     <div class="upload_feedback d-none">
                                                         Something went wrong please try again..
@@ -132,50 +131,41 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="mb-3">
-                                                    <label for="id_input_password">Password *</label>
-                                                    <input
-                                                        type="password"
-                                                        class="form-control"
-                                                        id="id_input_password"
-                                                        name="password"
-                                                        placeholder="password"
-                                                        value=""
-                                                    />
-                                                </div>
-                                            </div>
 
-                                            <div class="col-12">
-                                                <div class="mb-3">
-                                                    <label for="id_input_date">Birth date *</label>
-                                                    <input
-                                                        type="date"
-                                                        class="form-control datepicker"
-                                                        id="id_input_date"
-                                                        name="birth_date"
-                                                        placeholder="Birth Date"
-                                                        value="<%= data.birth_date ? new Date(data.birth_date.toString()).toISOString().split('T')[0] : '' %>"
-                                                    />
-                                                </div>
-                                            </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="id_input_password">Password *</label>
+                                            <input
+                                                type="password"
+                                                class="form-control"
+                                                id="id_input_password"
+                                                name="password"
+                                                placeholder="password"
+                                                value=""
+                                            />
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-md-6">
+
+                                    <div class="col-12">
                                         <div class="mb-3">
-                                            <label for="exampleFormControlTextarea1" class="form-label">Address</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="address" ><%= data.address ?  data.address : '' %></textarea >
+                                            <label for="id_input_date">Birth date *</label>
+                                            <input
+                                                type="date"
+                                                class="form-control datepicker"
+                                                id="id_input_date"
+                                                name="birth_date"
+                                                placeholder="Birth Date"
+                                                value="<%= data.birth_date ? new Date(data.birth_date.toString()).toISOString().split('T')[0] : '' %>"
+                                            />
                                         </div>
                                     </div>
 
                                     <div class="col-6 d-flex justify-content-end pe-3">
-                                        <button class="btn btn-primary rounded shadow" type="submit">UPDATE</button>
+                                        <button class="btn btn-primary rounded shadow" type="submit">REGISTER</button>
                                     </div>
 
                                     <div class="col-6 d-flex justify-content-start ps-3">
-                                        <a href="/auth/logout" class="btn btn-light rounded shadow">LOGOUT</a>
+                                        <a href="./login" class="btn btn-light rounded shadow">CANCEL</a>
                                     </div>
                                 </form>
                             </div>

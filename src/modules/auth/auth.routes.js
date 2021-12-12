@@ -15,7 +15,7 @@ router.get("/login", authController.loginPage);
 router.post("/login", authController.loginRequest);
 
 /**
- * login page router
+ * register page router
  */
 router.get("/register", authController.registerPage);
 
@@ -24,5 +24,9 @@ router.get("/register", authController.registerPage);
  */
 router.post("/register", authController.registerRequest);
 
+/**
+ * logout page router
+ */
+router.get("/logout", authController.logout);
 
 module.exports = router;
