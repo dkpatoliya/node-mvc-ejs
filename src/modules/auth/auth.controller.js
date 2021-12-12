@@ -1,8 +1,7 @@
-const path = require("path");
-
-
+const authService = require("./auth.service");
 
 const authSchema = require("./auth.validation");
+const { encryptionMD5 } = require("../../helper/encryption");
 // const authService = require("./auth.service");
 
 /**
@@ -13,7 +12,7 @@ const authSchema = require("./auth.validation");
  * @author Divyesh Patoliya<patoliyadivyesh101@gmail.com>
  */
 const loginPage = (_, res) => {
-    res.render("login");
+    res.render("login", { success: false, error: false });
 };
 
 /**
@@ -23,13 +22,35 @@ const loginPage = (_, res) => {
  * @param {Object} res  express response
  * @author Divyesh Patoliya<patoliyadivyesh101@gmail.com>
  */
-const loginRequest = (req, res) => {
+const loginRequest = async (req, res) => {
+    try {
+        const valid = authSchema.loginRequest(req.body);
 
+        if (valid) {
+            // check check Is Email Exist
 
-
-    res.sendFile("html/auth/login.html", {
-        root: path.join(__dirname, "../../../public")
-    });
+            const loginParams = {
+                email: req.body.email,
+                password: encryptionMD5(req.body.password)
+            };
+            // inset data
+            const user = await authService.loginUser(loginParams);
+            if (user[0]) {
+                // will have a new session here
+                let session = req.session;
+                session.login_id = user[0].id;
+               
+                res.redirect("/profile");
+            } else {
+                res.render("login", { data: req.body, success: false, error: "Invalid Email or password" });
+            }
+        } else {
+            res.render("login", { data: req.body, success: false, error: authSchema.loginRequest[0].message });
+        }
+    } catch (error) {
+        console.log(error);
+        res.render("login", { data: req.body, success: false, error: "Something went wrong please try again" });
+    }
 };
 
 /**
@@ -39,7 +60,7 @@ const loginRequest = (req, res) => {
  * @param {Object} res  express response
  */
 const registerPage = (_, res) => {
-    res.render("register");
+    res.render("register", { data: {}, success: false, error: false });
 };
 /**
  * register request controller
@@ -47,22 +68,39 @@ const registerPage = (_, res) => {
  * @param {Object} req express request
  * @param {Object} res  express response
  */
-const registerRequest = (req, res) => {
-    const valid = authSchema.registerRequest(req.body);
-    if (valid) {
-        res.render("register");
-    } else {
-        console.log(authSchema.registerRequest);
-       
-        res.render("register");
+const registerRequest = async (req, res) => {
+    try {
+        const valid = authSchema.registerRequest(req.body);
+
+        if (valid) {
+            // check check Is Email Exist
+            if (!(await authService.checkIsEmailExist(req.body.email))) {
+                const registerParams = {
+                    email: req.body.email,
+                    f_name: req.body.f_name,
+                    l_name: req.body.l_name,
+                    profile_image: req.body.profile_image,
+                    gender: req.body.gender,
+                    password: encryptionMD5(req.body.password),
+                    birth_date: req.body.birth_date
+                };
+                // inset data
+                await authService.addUser(registerParams);
+                res.redirect("/auth/login");
+            } else {
+                res.render("register", { data: req.body, success: false, error: "Email already registered" });
+            }
+        } else {
+            res.render("register", {
+                data: req.body,
+                success: false,
+                error: authSchema.registerRequest.errors[0].message
+            });
+        }
+    } catch (error) {
+        res.render("register", { data: req.body, success: false, error: "Something went wrong please try again" });
     }
-
-
 };
-
-
-
-
 
 /**
  * export auth controller

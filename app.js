@@ -28,9 +28,6 @@ app.use(logger("dev"));
 // routes
 app.use("/", require("./src/routes/index"));
 
-// static public files
-app.use(express.static("public"));
-
 
 
 module.exports = app;

@@ -1,21 +1,24 @@
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function () {
-    "use strict";
+$("#id_login_form").validate({
+    rules: {
 
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll(".requires-validation");
-    console.log(forms);
+        email: {
+            required: true,
+            email: true,
+            maxlength: 128
+        },
 
-    // Loop over them and prevent submission
-    Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-            form.addEventListener("submit", function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
+        password: {
+            required: true,
+            minlength: 4,
+            maxlength: 16
+        }
 
-                form.classList.add("was-validated");
-            }, false);
-        });
-})();
+    },
+    messages: {
+        password: { required: "Please enter password", minlength: "Enter valid password", maxlength: "Enter valid password" },
+        email: {
+            required: "Please enter email",
+            email: "Your email address must be in the format of name@domain.com"
+        }
+    }
+});

@@ -1,4 +1,4 @@
-const path = require("path");
+
 
 /**
  * Profile
@@ -7,10 +7,9 @@ const path = require("path");
  * @param {Object} res  express response
  * @author Divyesh Patoliya<patoliyadivyesh101@gmail.com>
  */
-const profile = (_req, res) => {
-    res.sendFile("html/user/profile.html", {
-        root: path.join(__dirname, "../../../public")
-    });
+const profile = (req, res) => {
+    console.log(req.session);
+    res.render("profile", { data: req.body, success: false, error: false });
 };
 
 

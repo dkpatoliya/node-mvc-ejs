@@ -4,3 +4,7 @@ npm-debug.log
 .env
 .DS_Store
 yarn-error.log
+
+public/tmp/*
+
+public/images/*

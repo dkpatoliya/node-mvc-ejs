@@ -1,130 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <!--  meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Bootstrap CSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+        />
+        <!-- Common CSS -->
+        <link rel="stylesheet" href="/css/style.css" />
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+        <title>register</title>
+    </head>
 
-    <title>register</title>
-</head>
+    <body>
+        <div class="container-flux">
+            <main>
+                <div class="row d-flex min-vh-100 align-items-center justify-content-center">
+                    <div class="col-sm-12 col-md-6 col-md-xl-4">
+                        <% if(error){ %> <%- include('components/alert-error', {msg: error}); %> <% }; %> <%
+                        if(success){ %> <%- include('components/alert-success'); %> <% }; %>
 
-<body>
-    <div class="container-flux">
-        <main>
-            <div class="row d-flex min-vh-100 align-items-center justify-content-center">
-                <div class="col-md-6">
-                    <div class="card px-5 py-5 border bg-body rounded shadow">
-                        <div class="card-body">
-                            <h2 class="card-title text-center mb-5">REGISTER</h2>
-                            <form class="row g-3  requires-validation" novalidate method="POST" action="/auth/register">
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="col-12">
-                                                <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" name="f_name"
-                                                        onkeypress=" return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 8"
-                                                        id="id_input_f_name" minlength="3" max="50" name="f_name"
-                                                        placeholder="first name" required />
-                                                    <label for="id_input_f_name">Fist Name</label>
-                                                    <div class="invalid-feedback">Please enter first name.</div>
+                        <div class="card px-5 py-5 border bg-body rounded shadow">
+                            <div class="card-body">
+                                <h2 class="card-title text-center mb-5">REGISTER</h2>
+                                <form
+                                    class="row g-3 requires-validation"
+                                    id="id_register_form"
+                                    method="POST"
+                                    action="/auth/register"
+                                >
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="col-12">
+                                                    <div class="mb-3">
+                                                        <label for="id_input_f_name">Fist Name *</label>
+                                                        <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            name="f_name"
+                                                            value="<%= data.f_name ?  data.f_name : '' %>"
+                                                            onkeypress=" return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 8"
+                                                            id="id_input_f_name"
+                                                            name="f_name"
+                                                            placeholder="first name"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="mb-3">
+                                                        <label for="id_input_email">Last Name *</label>
+                                                        <input
+                                                            type="text"
+                                                            name="l_name"
+                                                            class="form-control"
+                                                            id="id_input_l_name"
+                                                            name="l_name"
+                                                            value="<%= data.l_name ?  data.l_name : '' %>"
+                                                            onkeypress=" return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 8"
+                                                            placeholder="first name"
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12">
-                                                <div class="form-floating mb-3">
-                                                    <input type="text" name="l_name" class="form-control"
-                                                        id="id_input_l_name" minlength="3" max="50" name="l_name"
-                                                        onkeypress=" return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 8"
-                                                        placeholder="first name" required />
-                                                    <label for="id_input_email">Last Name</label>
-                                                    <div class="invalid-feedback">Please enter Last name.</div>
+                                            <div class="col-4">
+                                                <div class="mb-3 float-end">
+                                                    <label for="id_form_file" class="form-label">
+                                                        <img
+                                                            src="/images/default.png"
+                                                            style="max-height: 150px"
+                                                            id="profile_img_thumbnail"
+                                                            class="img-thumbnail"
+                                                            alt="Select Profile images"
+                                                        />
+                                                    </label>
+                                                    <input
+                                                        accept="image/*"
+                                                        class="form-control d-none"
+                                                        type="file"
+                                                        id="id_form_file"
+                                                    />
+                                                    <input
+                                                        type="hidden"
+                                                        name="profile_image"
+                                                        id="id_profile_images_input"
+                                                    />
+                                                    <div class="upload_feedback d-none">
+                                                        Something went wrong please try again..
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="form mb-3">
-                                                <label for="formFile" class="form-label">Profile Picture</label>
-                                                <input class="form-control" type="file" id="formFile" required />
-                                                <div class="invalid-feedback">Please select Profile Picture.</div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="id_input_email">Email *</label>
+                                            <input
+                                                type="email"
+                                                class="form-control"
+                                                id="id_input_email"
+                                                name="email"
+                                                value="<%= data.email ?  data.email : '' %>"
+                                                placeholder="email"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label> Gender*</label>
+                                            <br />
+
+                                            <div class="form-check form-check-inline ms-3">
+                                                <input class="form-check-input" type="radio" name="gender"
+                                                id="id_radio_male" value="M" <%=data.gender==='M' ? 'checked' : '' %> />
+                                                <label class="form-check-label" for="id_radio_male">Male</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender"
+                                                id="id_radio_female" value="F" <%=data.gender==='F' ? 'checked' : '' %>
+                                                />
+                                                <label class="form-check-label" for="id_radio_female">Female</label>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col-12">
-                                    <div class="form-floating mb-3">
-                                        <input type="email" class="form-control" id="id_input_email" minlength="3"
-                                            max="50" name="email" placeholder="email" required />
-                                        <label for="id_input_email">Email</label>
-                                        <div class="invalid-feedback">Please enter valid email.</div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-check mb-3">
-                                        <label> Gender </label>
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input class="form-check-input" type="radio" name="gender"
-                                                id="id_radio_male" value="M" checked aria-selected="true" />
-                                            <label class="form-check-label" for="id_radio_male">Male</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="gender"
-                                                id="id_radio_female" value="F" />
-                                            <label class="form-check-label" for="id_radio_female">Female</label>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="id_input_password">Password *</label>
+                                            <input
+                                                type="password"
+                                                class="form-control"
+                                                id="id_input_password"
+                                                name="password"
+                                                placeholder="password"
+                                                value="<%= data.password ?  data.password : '' %>"
+                                            />
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col-12">
-                                    <div class="form-floating mb-3">
-                                        <input type="password" class="form-control" id="id_input_password" minlength="3"
-                                            max="50" name="password" placeholder="password" required />
-                                        <label for="id_input_password">password</label>
-                                        <div class="invalid-feedback">Please enter valid password.</div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="id_input_date">Birth date *</label>
+                                            <input
+                                                type="date"
+                                                class="form-control datepicker"
+                                                id="id_input_date"
+                                                name="birth_date"
+                                                placeholder="Birth Date"
+                                                value="'<%= data.birth_date ?  data.birth_date : '' %>'"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-12">
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control datepicker" id="id_input_date"
-                                            minlength="3" max="50" name="birth_date" placeholder="password" required />
-                                        <label for="id_input_date">Birth date</label>
-                                        <div class="invalid-feedback">Please enter valid password.</div>
+                                    <div class="col-6 d-flex justify-content-end pe-3">
+                                        <button class="btn btn-primary rounded shadow" type="submit">REGISTER</button>
                                     </div>
-                                </div>
 
-                                <div class="col-6 d-flex justify-content-end pe-3">
-                                    <button class="btn btn-primary rounded shadow " type="submit">
-                                        REGISTER
-                                    </button>
-                                </div>
-
-                                <div class="col-6 d-flex justify-content-start ps-3">
-                                    <a href="./login" class="btn btn-light  rounded shadow">CANCEL</a>
-                                </div>
-                            </form>
+                                    <div class="col-6 d-flex justify-content-start ps-3">
+                                        <a href="./login" class="btn btn-light rounded shadow">CANCEL</a>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
-    </div>
+            </main>
+        </div>
 
-    <!--  Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-
-
-
-    <script type="text/javascript" src="/js/login.js"></script>
-
-
-</body>
-
+        <!--  Bootstrap Bundle with Popper -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"
+        ></script>
+        <!--  Jquery -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <!--  Jquery Validators -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+            integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <!-- Custom Javascript -->
+        <script src="/js/register.js"></script>
+    </body>
 </html>
